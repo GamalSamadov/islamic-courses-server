@@ -1,8 +1,5 @@
 import { AuthDto } from '@/auth/dto/auth.dto';
-import {
-  IGithubProfile,
-  IGoogleProfile,
-} from '@/auth/social-media/social-media-auth.types';
+import { IGoogleProfile } from '@/auth/social-media/social-media-auth.types';
 import { Injectable } from '@nestjs/common';
 import type { User } from '@prisma/client';
 import { hash } from 'argon2';
@@ -40,7 +37,7 @@ export class UserService {
     });
   }
 
-  async findOrCreateSocialUser(profile: IGoogleProfile | IGithubProfile) {
+  async findOrCreateSocialUser(profile: IGoogleProfile) {
     let user = await this.getByEmail(profile.email);
     if (!user) {
       user = await this._createSocialUser(profile);
@@ -48,14 +45,10 @@ export class UserService {
     return user;
   }
 
-  private async _createSocialUser(
-    profile: IGoogleProfile | IGithubProfile,
-  ): Promise<User> {
+  private async _createSocialUser(profile: IGoogleProfile): Promise<User> {
     const email = profile.email;
     const name =
-      'firstName' in profile
-        ? `${profile.firstName} ${profile.lastName}`
-        : profile.username;
+      'firstName' in profile ? `${profile.firstName} ${profile.lastName}` : '';
     const picture = profile.picture || '';
 
     return this.prisma.user.create({

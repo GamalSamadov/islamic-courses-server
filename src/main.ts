@@ -12,7 +12,6 @@ async function bootstrap() {
       { path: 'auth/google/redirect', method: RequestMethod.GET },
       { path: 'auth/github', method: RequestMethod.GET },
       { path: 'auth/github/redirect', method: RequestMethod.GET },
-      { path: 'verify-email', method: RequestMethod.GET },
     ],
   });
 

@@ -1,4 +1,3 @@
-import { EmailService } from '@/email/email.service';
 import { PrismaService } from '@/prisma.service';
 import { UserService } from '@/user/user.service';
 import {
@@ -18,7 +17,6 @@ export class AuthService {
   constructor(
     private jwt: JwtService,
     private userService: UserService,
-    private emailService: EmailService,
     private prisma: PrismaService,
   ) {}
 
@@ -36,11 +34,6 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
     const user = await this.userService.create(dto);
-
-    await this.emailService.sendVerification(
-      user.email,
-      `http://localhost:4200/verify-email?token=${user.verificationToken}`,
-    );
 
     return this.buildResponseObject(user);
   }

@@ -1,8 +1,6 @@
 import { SocialMediaAuthController } from '@/auth/social-media/social-media-auth.controller';
 import { SocialMediaAuthService } from '@/auth/social-media/social-media-auth.service';
-import { GithubStrategy } from '@/auth/strategies/github.strategy';
 import { GoogleStrategy } from '@/auth/strategies/google.strategy';
-import { EmailModule } from '@/email/email.module';
 import { PrismaService } from '@/prisma.service';
 import { UserModule } from '@/user/user.module';
 import { Module } from '@nestjs/common';
@@ -22,7 +20,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       useFactory: getJwtConfig,
     }),
     UserModule,
-    EmailModule,
   ],
   controllers: [AuthController, SocialMediaAuthController],
   providers: [
@@ -31,7 +28,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     AuthService,
     RefreshTokenService,
     GoogleStrategy,
-    GithubStrategy,
     SocialMediaAuthService,
   ],
 })

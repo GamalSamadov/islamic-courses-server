@@ -1,10 +1,8 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   Post,
-  Query,
   Req,
   Res,
   UnauthorizedException,
@@ -47,16 +45,6 @@ export class AuthController {
     const { refreshToken, ...response } = await this.authService.register(dto);
     this.refreshTokenService.addRefreshTokenToResponse(res, refreshToken);
     return response;
-  }
-
-  @HttpCode(200)
-  @Get('verify-email')
-  async verifyEmail(@Query('token') token?: string) {
-    if (!token) {
-      throw new UnauthorizedException('Token not passed');
-    }
-
-    return this.authService.verifyEmail(token);
   }
 
   @HttpCode(200)
